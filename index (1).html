@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Franklin May S. Maldonado — Portfolio</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --purple:      #5B4B8A;
+    --purple-mid:  #7B6BAE;
+    --purple-pale: #EDE9F6;
+    --gold:        #C9A84C;
+    --dark:        #1A1A2E;
+    --gray:        #666677;
+    --light:       #F4F2FA;
+    --white:       #ffffff;
+  }
+  body { font-family: "Segoe UI", system-ui, sans-serif; background: var(--light); color: var(--dark); }
+
+  /* HERO */
+  .hero {
+    background: var(--purple);
+    padding: 64px 40px 56px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before { content: ""; position: absolute; top: -80px; right: -80px; width: 320px; height: 320px; border-radius: 50%; background: rgba(255,255,255,0.05); }
+  .hero::after  { content: ""; position: absolute; bottom: -100px; left: -60px; width: 260px; height: 260px; border-radius: 50%; background: rgba(255,255,255,0.04); }
+
+  .hero-eyebrow {
+    display: inline-block;
+    border: 1px solid rgba(255,255,255,0.28);
+    background: rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.88);
+    font-size: 11px; font-weight: 700;
+    letter-spacing: 1.5px; text-transform: uppercase;
+    padding: 5px 18px; border-radius: 20px; margin-bottom: 22px;
+  }
+  .hero h1 { color: #fff; font-size: 44px; font-weight: 800; letter-spacing: -0.8px; margin-bottom: 8px; }
+  .hero h1 em { color: var(--gold); font-style: normal; }
+  .hero-title { color: rgba(255,255,255,0.7); font-size: 16px; margin-bottom: 20px; letter-spacing: 0.3px; }
+  .hero p { color: rgba(255,255,255,0.72); font-size: 15px; max-width: 520px; margin: 0 auto 32px; line-height: 1.7; }
+
+  .hero-contacts {
+    display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;
+  }
+  .hero-contact {
+    color: rgba(255,255,255,0.8); font-size: 13px;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    padding: 7px 16px; border-radius: 20px;
+    text-decoration: none;
+    transition: background 0.2s;
+  }
+  .hero-contact:hover { background: rgba(255,255,255,0.2); color: #fff; }
+
+  /* STATS */
+  .stats {
+    display: flex; justify-content: center; gap: 0;
+    background: var(--white);
+    border-bottom: 1px solid var(--purple-pale);
+  }
+  .stat {
+    flex: 1; max-width: 200px;
+    padding: 24px 20px;
+    text-align: center;
+    border-right: 1px solid var(--purple-pale);
+  }
+  .stat:last-child { border-right: none; }
+  .stat-num { font-size: 28px; font-weight: 800; color: var(--purple); line-height: 1; margin-bottom: 4px; }
+  .stat-label { font-size: 12px; color: var(--gray); font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; }
+
+  /* SECTION LABEL */
+  .section-label {
+    text-align: center;
+    padding: 40px 40px 8px;
+    font-size: 11px; font-weight: 700;
+    color: var(--purple-mid);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+  }
+  .section-title {
+    text-align: center;
+    font-size: 26px; font-weight: 800;
+    color: var(--dark);
+    padding: 0 40px 32px;
+    letter-spacing: -0.3px;
+  }
+
+  /* GRID */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+    padding: 0 40px 60px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  /* CARD */
+  .card {
+    background: var(--white);
+    border-radius: 14px;
+    padding: 28px 24px;
+    border: 1px solid rgba(91,75,138,0.1);
+    box-shadow: 0 2px 10px rgba(91,75,138,0.06);
+    text-decoration: none;
+    color: inherit;
+    display: flex; flex-direction: column; gap: 12px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    position: relative;
+  }
+  .card:hover:not(.disabled) {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(91,75,138,0.16);
+  }
+  .card.disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+  .card-icon {
+    font-size: 28px;
+    width: 52px; height: 52px;
+    background: var(--purple-pale);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .card-name {
+    font-size: 18px; font-weight: 800;
+    color: var(--dark); letter-spacing: -0.2px;
+  }
+  .card-desc {
+    font-size: 13px; color: var(--gray); line-height: 1.65; flex: 1;
+  }
+  .card-cta {
+    font-size: 12px; font-weight: 700;
+    color: var(--purple);
+    display: flex; align-items: center; gap: 4px;
+    margin-top: 4px;
+  }
+  .card.disabled .card-cta { color: var(--gray); }
+
+  .badge-live {
+    position: absolute; top: 16px; right: 16px;
+    background: #E8F5E9; color: #2E7D32;
+    font-size: 10px; font-weight: 700;
+    padding: 3px 9px; border-radius: 20px;
+    letter-spacing: 0.5px; text-transform: uppercase;
+  }
+  .badge-soon {
+    position: absolute; top: 16px; right: 16px;
+    background: var(--purple-pale); color: var(--purple-mid);
+    font-size: 10px; font-weight: 700;
+    padding: 3px 9px; border-radius: 20px;
+    letter-spacing: 0.5px; text-transform: uppercase;
+  }
+
+  /* DIVIDER */
+  .divider {
+    border: none;
+    border-top: 1px solid var(--purple-pale);
+    margin: 0 40px;
+  }
+
+  /* ABOUT */
+  .about {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 48px 40px;
+    text-align: center;
+  }
+  .about h2 { font-size: 22px; font-weight: 800; color: var(--dark); margin-bottom: 14px; }
+  .about p { font-size: 14px; color: var(--gray); line-height: 1.8; margin-bottom: 16px; }
+  .skills-wrap { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 20px; }
+  .skill-pill {
+    background: var(--purple-pale); color: var(--purple);
+    font-size: 12px; font-weight: 600;
+    padding: 5px 14px; border-radius: 20px;
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--purple);
+    text-align: center;
+    padding: 28px 40px;
+    font-size: 13px; color: rgba(255,255,255,0.7);
+  }
+  footer strong { color: #fff; }
+  footer a { color: var(--gold); text-decoration: none; }
+
+  @media (max-width: 640px) {
+    .hero { padding: 44px 20px 40px; }
+    .hero h1 { font-size: 30px; }
+    .grid { padding: 0 20px 40px; }
+    .stats { flex-wrap: wrap; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eyebrow">Portfolio</div>
+  <h1>Franklin May S. Maldonado</h1>
+  <div class="hero-title">Senior Copywriter &nbsp;·&nbsp; General VA &nbsp;·&nbsp; Funnel Strategist</div>
+  <p>Direct response copywriter and general virtual assistant with 6+ years of experience, helped scale Agencies from zero to a million-dollar agency.</p>
+  <div class="hero-contacts">
+    <a class="hero-contact" href="mailto:maym84244@gmail.com">✉ maym84244@gmail.com</a>
+    
+    <a class="hero-contact" href="tel:+639565570989">📞 +63 956 5570 989</a>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat"><div class="stat-num">6+</div><div class="stat-label">Years Experience</div></div>
+  <div class="stat"><div class="stat-num">100+</div><div class="stat-label">Websites Built</div></div>
+  <div class="stat"><div class="stat-num">10+</div><div class="stat-label">Industries Served</div></div>
+  <div class="stat"><div class="stat-num">$1M+</div><div class="stat-label">Agency Scaled</div></div>
+  <div class="stat"><div class="stat-num">24+</div><div class="stat-label">Tools Mastered</div></div>
+</div>
+
+<!-- PORTFOLIO SECTIONS -->
+<div class="section-label">My Work</div>
+<div class="section-title">Browse by Category</div>
+
+<div class="grid">
+
+  <a class="card" href="websites_hires.html">
+    <div class="badge-live">Live</div>
+    <div class="card-icon">🖥️</div>
+    <div class="card-name">Websites Built</div>
+    <div class="card-desc">Website copy and design collaborations across multiple clients — agencies, startups, real estate, e-commerce, and local businesses.</div>
+    <div class="card-cta">View Work ↗</div>
+  </a>
+
+  <a class="card disabled" href="#">
+    <div class="badge-soon">Coming Soon</div>
+    <div class="card-icon">📧</div>
+    <div class="card-name">Email Copy</div>
+    <div class="card-desc">Email sequences, subject lines, drip campaigns, and nurture flows crafted for multiple industries and client funnels.</div>
+    <div class="card-cta">Coming Soon</div>
+  </a>
+
+  <a class="card disabled" href="#">
+    <div class="badge-soon">Coming Soon</div>
+    <div class="card-icon">💬</div>
+    <div class="card-name">SMS Sequences</div>
+    <div class="card-desc">High-converting SMS campaigns and abandon text sequences built for lead nurturing and re-engagement.</div>
+    <div class="card-cta">Coming Soon</div>
+  </a>
+
+  <a class="card disabled" href="#">
+    <div class="badge-soon">Coming Soon</div>
+    <div class="card-icon">📄</div>
+    <div class="card-name">Sales Pages & Funnels</div>
+    <div class="card-desc">Landing pages, sales pages, upsell and downsell pages built with direct response principles to drive conversions.</div>
+    <div class="card-cta">Coming Soon</div>
+  </a>
+
+  <a class="card disabled" href="#">
+    <div class="badge-soon">Coming Soon</div>
+    <div class="card-icon">📦</div>
+    <div class="card-name">Lead Magnets & EPUBs</div>
+    <div class="card-desc">E-books, guides, checklists, and downloadable lead magnets designed to attract and convert cold traffic.</div>
+    <div class="card-cta">Coming Soon</div>
+  </a>
+
+  <a class="card disabled" href="#">
+    <div class="badge-soon">Coming Soon</div>
+    <div class="card-icon">📱</div>
+    <div class="card-name">FB & Social Ads</div>
+    <div class="card-desc">Facebook ad copy, ad scripts, and social media campaigns built to generate leads and drive traffic.</div>
+    <div class="card-cta">Coming Soon</div>
+  </a>
+
+  <a class="card disabled" href="#">
+    <div class="badge-soon">Coming Soon</div>
+    <div class="card-icon">🗞️</div>
+    <div class="card-name">Advertorials & Blogs</div>
+    <div class="card-desc">SEO-optimized advertorials, blog posts, and native ad copy written to educate, engage, and convert readers.</div>
+    <div class="card-cta">Coming Soon</div>
+  </a>
+
+  <a class="card disabled" href="#">
+    <div class="badge-soon">Coming Soon</div>
+    <div class="card-icon">📣</div>
+    <div class="card-name">Social Media Posts</div>
+    <div class="card-desc">Organic social content, captions, and brand voice copy crafted for Facebook, Instagram, and YouTube.</div>
+    <div class="card-cta">Coming Soon</div>
+  </a>
+
+</div>
+
+<hr class="divider">
+
+<!-- ABOUT -->
+<div class="about">
+  <h2>About Franklin</h2>
+  <p>Direct response copywriter and general VA with 6+ years of experience building funnels, managing operations, and writing copy that converts across email, SMS, ads, and web. Most notably helped Agent Lead Lab grow from zero to a million-dollar agency as Senior Copywriter, General Manager, and Customer Service Rep.</p>
+  <p>Proficient in GoHighLevel, Canva, Figma, WordPress, ChatGPT, Claude, and 20+ other tools. Available for freelance projects and full-time remote roles.</p>
+  <div class="skills-wrap">
+    <span class="skill-pill">Email Copywriting</span>
+    <span class="skill-pill">SMS Sequences</span>
+    <span class="skill-pill">Sales Pages</span>
+    <span class="skill-pill">GoHighLevel</span>
+    <span class="skill-pill">Lead Magnets</span>
+    <span class="skill-pill">Facebook Ads</span>
+    <span class="skill-pill">Website Design</span>
+    <span class="skill-pill">Graphic Design</span>
+    <span class="skill-pill">Consumer Psychology</span>
+    <span class="skill-pill">Funnel Strategy</span>
+    <span class="skill-pill">A/B Testing</span>
+    <span class="skill-pill">Project Management</span>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <strong>Franklin May S. Maldonado</strong> &nbsp;·&nbsp; Senior Copywriter & General VA &nbsp;·&nbsp;
+  <a href="mailto:maym84244@gmail.com">maym84244@gmail.com</a> &nbsp;·&nbsp;
+  <a href="https://campsite.bio/franklinmay" target="_blank">campsite.bio/franklinmay</a>
+</footer>
+
+</body>
+</html>
